@@ -5,10 +5,12 @@ using namespace std;
 
 Notebook::Notebook(void){
     name = "Undefined";
+    id = 0;
 }
 
 Notebook::Notebook (string notebook_name_in){
     name = notebook_name_in;
+    id = 0;
 }
 
 bool Notebook::insertTopic(string topic_name){
@@ -18,4 +20,8 @@ bool Notebook::insertTopic(string topic_name){
     topics.push_back(topic);
 
     return true;
+}
+
+bool Notebook::equals(Notebook other){
+    return (name == other.name) && (id == other.id);
 }

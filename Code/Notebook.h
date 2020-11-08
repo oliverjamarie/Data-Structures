@@ -16,8 +16,9 @@ public:
     
     vector<Topic> topics;
     string name;
-
+    int id; 
     bool insertTopic(string );
+    bool equals(Notebook );
 };
 
 

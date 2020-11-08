@@ -1,8 +1,8 @@
 
-output: Main.o Notebook.o Topic.o LinkedList.o
-	g++ Main.o Notebook.o Topic.o LinkedList.o -o output
+output: Main.o Notebook.o Topic.o
+	g++ Main.o Notebook.o Topic.o -o output
 
-Main.o: Main.cpp Notebook.o 
+Main.o: Main.cpp Notebook.o LinkedList.h
 	g++ -c Main.cpp
 
 Notebook.o: Notebook.cpp Notebook.h Topic.o
@@ -11,8 +11,6 @@ Notebook.o: Notebook.cpp Notebook.h Topic.o
 Topic.o: Topic.cpp Topic.h
 	g++ -c Topic.cpp
 
-LinkedList.o: LinkedList.h LinkedList.cpp
-	g++ -c LinkedList.cpp
 
 
 clean:
