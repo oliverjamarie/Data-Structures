@@ -6,10 +6,9 @@
 
 #include <iostream>
 #include <exception>
-#include <type_traits>
 
+#include "Compare.h"
 using namespace std;
-
 
 // Because we're working with templates and templates are 
 // translated before compile time, we implement their code here 
@@ -17,9 +16,9 @@ using namespace std;
 
 
 TEMP
-class Node{
+class LinkedListNode{
     public:
-        Node(T data_in){
+        LinkedListNode(T data_in){
             data = data_in;
         }
 
@@ -27,13 +26,13 @@ class Node{
         T getData(){
             return data;
         }
-        Node<T>* getNext(){
+        LinkedListNode<T>* getNext(){
             return next;
         }
         bool compare(T,T);
     private:
         T data;
-        Node<T>* next;
+        LinkedListNode<T>* next;
 
         template <class U> friend class LinkedList;
 };
@@ -46,15 +45,14 @@ class LinkedList{
         //Constructors
         LinkedList();
         LinkedList(T);
-        LinkedList(Node<T>*);
+        LinkedList(LinkedListNode<T>*);
 
 
         //Functions
         bool append(T);
-        bool equals(T,T);
         
-        Node<T>* find(T);
-        Node<T>* getHead(){
+        LinkedListNode<T>* find(T);
+        LinkedListNode<T>* getHead(){
             return head;
         }
         int index(T);
@@ -66,7 +64,7 @@ class LinkedList{
 
     private:
 
-        Node<T>* head;
+        LinkedListNode<T>* head;
         int size;
 };
 
@@ -78,22 +76,22 @@ LinkedList<T>::LinkedList(){
 
 TEMP
 LinkedList<T>::LinkedList(T data_in){
-    head = new Node<T>(data_in);
+    head = new LinkedListNode<T>(data_in);
     size = 0;
 }
 
 TEMP
-LinkedList<T>::LinkedList(Node<T>* node){
+LinkedList<T>::LinkedList(LinkedListNode<T>* node){
     size = 1;
     head = node;
 }
 
 TEMP
 bool LinkedList<T>::append(T data_in){
-    Node<T>* curr;
+    LinkedListNode<T>* curr;
 
     if (head == NULL){
-        head = new Node<T>(data_in);
+        head = new LinkedListNode<T>(data_in);
         size ++;
         return true;
     }
@@ -104,18 +102,19 @@ bool LinkedList<T>::append(T data_in){
         curr = curr->next;
     }
 
-    curr->next = new Node<T>(data_in);
+    curr->next = new LinkedListNode<T>(data_in);
 
     size ++;
     return true;
 }
 
 TEMP 
-Node<T>* LinkedList<T>::find(T data){
-    Node<T>* curr = head;
+LinkedListNode<T>* LinkedList<T>::find(T data){
+    LinkedListNode<T>* curr = head;
+    Compare<T> comp;
 
     while (curr != NULL){
-        if (equals(curr->data,data)){
+        if (comp.compare(curr->data,data) == 0){
             return curr;
         } 
         else {
@@ -129,10 +128,10 @@ Node<T>* LinkedList<T>::find(T data){
 TEMP 
 int LinkedList<T>::index(T data){
     int index = 0;
-    Node<T>* curr = head;
-
+    LinkedListNode<T>* curr = head;
+    Compare<T> comp;
     while (curr != NULL){
-        if (equals(curr->data, data)){
+        if (comp.compare(curr->data,data) == 0){
             return index;
         }
         else{
@@ -146,39 +145,5 @@ int LinkedList<T>::index(T data){
 }
 
 
-//Implementation of the various forms of LinkedList.equals()
-TEMP
-bool LinkedList<T>::equals(T obj1, T obj2){
-
-    
-    try {
-        return obj1.equals(obj2);
-    }
-    catch (string exceptionStr){
-        cout << exceptionStr << endl;
-    }
-
-   return false;
-}
-
-template<> 
-bool LinkedList<int>::equals(int num1, int num2){
-    return num1 == num2;
-}
-
-template<> 
-bool LinkedList<float>::equals(float num1, float num2){
-    return num1 == num2;
-}
-
-template<> 
-bool LinkedList<double>::equals(double num1, double num2){
-    return num1 == num2;
-}
-
-template<> 
-bool LinkedList<char>::equals(char char1, char char2){
-    return char1 == char2;
-}
 
 #endif
