@@ -3,21 +3,16 @@
 #include "Topic.h"
 #include "LinkedList.h"
 #include <exception>
+#include "BinarySearchTree.h"
+#include <ctime>
 
 using namespace std;
 
-
-
-
-int main (){
-    Notebook note =  Notebook("Test Notebook");
-    Notebook other =  Notebook("Test Notebook");
-    Topic *topic = new Topic(0,"French");
-    LinkedList<int>* list = new LinkedList<int>();
-    Node<int>* curr , *node;
+void testLinkedList(){
+LinkedList<int>* list = new LinkedList<int>();
+    LinkedListNode<int>* curr , *node;
     int index;
 
-    cout << "Are they equal?\t" << list->equals(5,5) << endl;
 
     for (int i = 0; i < 10; i ++){
         list->append(i);
@@ -46,10 +41,36 @@ int main (){
         curr = curr->getNext();
     }
 
+}
 
+
+void testBST(){
+    BinarySearchTree<int>* bst = new BinarySearchTree<int>();
+    srand((unsigned) time(0));
+    int num ;
+    for (int i = 0; i < 10; i ++){
+        num = rand() % 100;
+        cout << "ADDING\t" << num << endl;
+        bst->insert(num);
+    }
+    
+    bst->display(0);
+    bst->display(1);
+    bst->display(2);
+}
+
+int main (){
+    Notebook note =  Notebook("Test Notebook");
+    Notebook other =  Notebook("Test Notebook");
+    Topic *topic = new Topic(0,"French");
+    
+    testBST();
 
     return 0;
 }
 
+// The following may be unnecessary but it is kept for potential reference
+
+/* 
 template class Node<int>;
-template class LinkedList<int>;
+template class LinkedList<int>; */
