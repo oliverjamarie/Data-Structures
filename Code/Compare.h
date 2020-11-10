@@ -10,8 +10,14 @@ class Compare {
     public:
         
         int compare(T,T);
+        bool equals(T,T);
 
 };
+
+TEMP
+bool Compare<T>::equals(T obj1, T obj2){
+    return compare(obj1,obj2) == 0;
+}
 
 TEMP
 int Compare<T>::compare(T obj1, T obj2){
@@ -21,7 +27,6 @@ int Compare<T>::compare(T obj1, T obj2){
 
 template<>
 int Compare<int>::compare(int num1, int num2){
-    //cout << "COMPARING INTS\n";
     if (num1 == num2){
         return 0;
     }
@@ -33,7 +38,7 @@ int Compare<int>::compare(int num1, int num2){
 
 template<>
 int Compare<float>::compare(float num1, float num2){
-    cout << "COMPARING INTS\n";
+    cout << "COMPARING FLOAT\n";
     if (num1 == num2){
         return 0;
     }
@@ -45,7 +50,7 @@ int Compare<float>::compare(float num1, float num2){
 
 template<>
 int Compare<double>::compare(double num1, double num2){
-    cout << "COMPARING INTS\n";
+    cout << "COMPARING DOUBLE\n";
     if (num1 == num2){
         return 0;
     }
@@ -57,7 +62,7 @@ int Compare<double>::compare(double num1, double num2){
 
 template<>
 int Compare<char>::compare(char char1, char char2){
-    cout << "COMPARING INTS\n";
+    cout << "COMPARING CHAR\n";
     if (char1 == char2){
         return 0;
     }
