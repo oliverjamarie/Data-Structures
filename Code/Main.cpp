@@ -41,6 +41,26 @@ LinkedList<int>* list = new LinkedList<int>();
         curr = curr->getNext();
     }
 
+    node = list->find(5);
+
+    if (node == NULL){
+        cout << "Node not found\n";
+    }
+    else{
+        cout << "FOUND NODE\t" <<  node->getData()<<endl;
+    }
+
+    list->remove(5);
+
+    node = list->find(5);
+
+    if (node == NULL){
+        cout << "Node not found, it was removed\n";
+    }
+    else{
+        cout << "FOUND NODE\t" <<  node->getData()<<endl;
+    }
+
 }
 
 
@@ -64,7 +84,9 @@ int main (){
     Notebook other =  Notebook("Test Notebook");
     Topic *topic = new Topic(0,"French");
     
-    testBST();
+    //testBST();
+
+    testLinkedList();
 
     return 0;
 }
