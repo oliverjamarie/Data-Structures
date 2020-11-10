@@ -29,7 +29,7 @@ class LinkedListNode{
         LinkedListNode<T>* getNext(){
             return next;
         }
-        bool compare(T,T);
+
     private:
         T data;
         LinkedListNode<T>* next;
@@ -50,15 +50,18 @@ class LinkedList{
 
         //Functions
         bool append(T);
-        
+        bool remove(T);
+
         LinkedListNode<T>* find(T);
         LinkedListNode<T>* getHead(){
             return head;
         }
+
         int index(T);
         int getSize(){
             return size;
         }
+
 
 
 
@@ -144,6 +147,31 @@ int LinkedList<T>::index(T data){
     return -1;
 }
 
+TEMP
+bool LinkedList<T>::remove(T data_in){
+    LinkedListNode<T>* curr = head,*prev = head;
+    Compare<T> comp;
 
+    while (curr != NULL){
+        if (comp.compare(data_in, curr->data) == 0){
+            size --;
 
-#endif
+            if (curr->next != NULL){
+                prev->next = curr->next;
+            }
+            else { //curr is the last node of the list
+                curr = NULL;
+            }
+
+            return true;
+        }
+        else {
+            prev = curr;
+            curr = curr->next;
+        }
+    }
+
+    return false;
+}
+
+#endif 
