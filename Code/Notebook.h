@@ -18,7 +18,7 @@ public:
     string name;
     int id; 
     bool insertTopic(string );
-    bool equals(Notebook );
+    int compare(Notebook );
 };
 
 

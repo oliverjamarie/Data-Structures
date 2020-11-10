@@ -22,6 +22,20 @@ bool Notebook::insertTopic(string topic_name){
     return true;
 }
 
-bool Notebook::equals(Notebook other){
-    return (name == other.name) && (id == other.id);
+//they are the same if they have the same name and id
+int Notebook::compare(Notebook other){
+    int cmp = name.compare(other.name);//built in string function
+
+    if (cmp == 0){
+        if (id == other.id){
+            return 0; 
+        }
+        if (id < other.id){
+            return -1;
+        }
+        return 1;
+        
+    }
+
+    return cmp;
 }
