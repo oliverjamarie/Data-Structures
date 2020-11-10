@@ -21,8 +21,13 @@ bool Compare<T>::equals(T obj1, T obj2){
 
 TEMP
 int Compare<T>::compare(T obj1, T obj2){
-    cout << "COMPARING GENERICS\n";
-    return obj1.compare(obj2);
+    try{
+        cout << "COMPARING GENERICS\n";
+        return obj1.compare(obj2);
+    }
+    catch (std::string e){
+        cout << e << endl << "Implement a compare function for your object\n";
+    }
 }
 
 template<>
