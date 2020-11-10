@@ -13,6 +13,10 @@ public:
     Topic(int);
     Topic (int, string);
 
+
+    //Functions
+    int compare(Topic );
+
     int id;
     string name;
 
