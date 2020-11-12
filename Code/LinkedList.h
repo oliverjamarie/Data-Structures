@@ -111,13 +111,14 @@ bool LinkedList<T>::append(T data_in){
     return true;
 }
 
+// Reurns null if not found
 TEMP 
 LinkedListNode<T>* LinkedList<T>::find(T data){
     LinkedListNode<T>* curr = head;
-    Compare<T> comp;
+    //Compare<T> comp;
 
     while (curr != NULL){
-        if (comp.compare(curr->data,data) == 0){
+        if (Compare<T>::compare(curr->data,data) == 0){
             return curr;
         } 
         else {
@@ -128,13 +129,14 @@ LinkedListNode<T>* LinkedList<T>::find(T data){
     return curr;
 }
 
+//returns -1 if it isn't found
 TEMP 
 int LinkedList<T>::index(T data){
     int index = 0;
     LinkedListNode<T>* curr = head;
-    Compare<T> comp;
+    //Compare<T> comp;
     while (curr != NULL){
-        if (comp.compare(curr->data,data) == 0){
+        if (Compare<T>::compare(curr->data,data) == 0){
             return index;
         }
         else{
@@ -150,10 +152,10 @@ int LinkedList<T>::index(T data){
 TEMP
 bool LinkedList<T>::remove(T data_in){
     LinkedListNode<T>* curr = head,*prev = head;
-    Compare<T> comp;
+    //Compare<T> comp;
 
     while (curr != NULL){
-        if (comp.compare(data_in, curr->data) == 0){
+        if (Compare<T>::compare(data_in, curr->data) == 0){
             size --;
 
             if (curr->next != NULL){
