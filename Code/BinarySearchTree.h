@@ -45,7 +45,7 @@ TEMP
 class BinarySearchTree {
     private:
         bool insertIntoTree(T, BSTNode<T>*);
-        bool removeFromTree(T, BSTNode<T>*, BSTNode<T>*);
+        bool deleteNode(T, BSTNode<T>*&);
         void displayTreeIncOrder(BSTNode<T>*);
         void displayTreeDecOrder(BSTNode<T>*);
         void displayTreeTraversOrder(BSTNode<T>*);
@@ -186,4 +186,47 @@ BSTNode<T>* BinarySearchTree<T>::find(T data_in, BSTNode<T>* node){
     }
 }
 
+//  To implement,
+//      destructor
+TEMP
+bool BinarySearchTree<T>::remove(T data_in){
+    BSTNode<T> node = find(data_in, root);
+    
+    if (node != NULL){
+        return deleteNode(data_in, node);
+    }
+
+    return false;
+}
+
+TEMP
+bool BinarySearchTree<T>::deleteNode(T data_in, BSTNode<T> *&node){
+    BSTNode<T>* toDelete = node;
+    //used to find the smallest child node
+    BSTNode<T>* attach;
+
+    if (node->right == NULL){
+        node = node->left;
+        return true;
+    }
+    else if (node->left == NULL){
+        node = node->right;
+        return true;
+    }
+    else {
+        attach = node->right;
+
+        // finds leftmost node 
+        while (attach->left != NULL){
+            attach = attach->left;
+        }
+
+        // set child node of smalled node to be the left child of the node to be deleted
+        attach->left = node->left;
+        
+        node = node->right;
+    }
+    delete toDelete; 
+    return false;
+}
 #endif
