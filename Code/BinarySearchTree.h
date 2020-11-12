@@ -82,9 +82,8 @@ bool BinarySearchTree<T>:: insert(T data_in){
 
 TEMP 
 bool BinarySearchTree<T>::insertIntoTree(T data_in, BSTNode<T>* parent){
-    Compare<T> comp;
 
-    if (comp.compare(data_in,parent->data) <= 0){
+    if (Compare<T>::compare(data_in,parent->data) <= 0){
         if (parent->left == NULL){
             parent->left = new BSTNode<T>(data_in);
             return true;
@@ -100,6 +99,8 @@ bool BinarySearchTree<T>::insertIntoTree(T data_in, BSTNode<T>* parent){
     }
 }
 
+
+//NOT YET IMPLEMENTED
 TEMP 
 bool BinarySearchTree<T>::balance(){
     return true;
@@ -168,16 +169,16 @@ void BinarySearchTree<T>::displayTreeTraversOrder(BSTNode<T>* node){
 
 TEMP
 BSTNode<T>* BinarySearchTree<T>::find(T data_in, BSTNode<T>* node){
-    Compare<T> comp;
+    //Compare<T> comp;
 
     if (node == NULL){
         return NULL;
     }
 
-    if (comp.compare(data_in, node ->data) == 0){
+    if (Compare<T>::compare(data_in, node ->data) == 0){
         return node;
     }
-    else if (comp.compare(data_in, node->data) < 0){
+    else if (Compare<T>::compare(data_in, node->data) < 0){
         return find(data_in, node->left);
     }
     else {
