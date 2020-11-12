@@ -8,8 +8,7 @@ using namespace std;
 TEMP
 class Compare {
     public:
-        
-        int compare(T,T);
+        static int compare(T,T);
         bool equals(T,T);
 
 };
