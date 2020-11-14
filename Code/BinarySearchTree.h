@@ -45,12 +45,13 @@ TEMP
 class BinarySearchTree {
     private:
         bool insertIntoTree(T, BSTNode<T>*);
-        bool deleteNode(T, BSTNode<T>*&);
         void displayTreeIncOrder(BSTNode<T>*);
         void displayTreeDecOrder(BSTNode<T>*);
         void displayTreeTraversOrder(BSTNode<T>*);
         BSTNode<T>* find(T, BSTNode<T>*);
-
+        BSTNode<T>* findMin(BSTNode<T>*);
+        BSTNode<T>* findMax(BSTNode<T>*);
+        BSTNode<T>* deleteNode(T, BSTNode<T>*);
         int size;
         BSTNode<T>* root;
 
@@ -190,43 +191,65 @@ BSTNode<T>* BinarySearchTree<T>::find(T data_in, BSTNode<T>* node){
 //      destructor
 TEMP
 bool BinarySearchTree<T>::remove(T data_in){
-    BSTNode<T> node = find(data_in, root);
-    
-    if (node != NULL){
-        return deleteNode(data_in, node);
-    }
-
-    return false;
+    return deleteNode(data_in, root) != NULL;
 }
 
 TEMP
-bool BinarySearchTree<T>::deleteNode(T data_in, BSTNode<T> *&node){
-    BSTNode<T>* toDelete = node;
-    //used to find the smallest child node
-    BSTNode<T>* attach;
+BSTNode<T>* BinarySearchTree<T>::deleteNode(T data_in, BSTNode<T>* node){
+   BSTNode<T>* temp;
 
-    if (node->right == NULL){
-        node = node->left;
-        return true;
+   if (node == NULL){
+       return NULL;
+   }
+   else if (Compare<T>::compare(data_in, node->data) < 0){
+       node->left = deleteNode(data_in,node->left);
+   }
+   else if (Compare<T>::compare(data_in, node->data) > 0){
+       node->right = deleteNode (data_in, node->right);
+   }
+   else if (node->right && node->left){ // if both child nodes are not NULL
+        temp = findMin(node->right);
+        node->data = temp->data;
+        node->right = deleteNode(node->data, node->right);
+   }
+   else {
+       temp = node;
+       if (node->left == NULL){
+           node = node->right;
+       }
+       else if (node->right == NULL){
+           node = node->left;
+       }
+       delete temp;
+   }
+
+   return node;
+}
+// Returns the smallest child of node 
+TEMP
+BSTNode<T>* BinarySearchTree<T>:: findMin(BSTNode<T>* node){
+    if (node == NULL){
+        return NULL;
     }
     else if (node->left == NULL){
-        node = node->right;
-        return true;
+        return node;
     }
     else {
-        attach = node->right;
-
-        // finds leftmost node 
-        while (attach->left != NULL){
-            attach = attach->left;
-        }
-
-        // set child node of smalled node to be the left child of the node to be deleted
-        attach->left = node->left;
-        
-        node = node->right;
+        return findMin(node->left);
     }
-    delete toDelete; 
-    return false;
+}
+
+// Returns the biggest child of node
+TEMP 
+BSTNode<T>* BinarySearchTree<T>::findMax(BSTNode<T>* node){
+    if (node == NULL){
+        return NULL;
+    }
+    else if (node->right == NULL){
+        return node;
+    }
+    else {
+        return findMax(node->right);
+    }
 }
 #endif
