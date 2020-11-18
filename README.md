@@ -14,37 +14,37 @@ The data structures rely on Compare.h to compare variables.  If the variable typ
 # Binary Search Tree
 - BinarySearchTree<T>
 	- Variables
-		- BSTNode<T>* root (private)
-		- int size (private)
+		- **BSTNode<T>\* root** (private)
+		- **int size **(private)
 		
 	- Constructors
-		- BinarySearchTree()
-		- BinarySearchTree(vector<T> in)
+		- **BinarySearchTree()**
+		- **BinarySearchTree(vector<T> in)**
 		
 	- Functions
-		- int getSize()
+		- **int getSize()**
 			Returns the size of the tree
-		- bool insert(T data)
-			Inserts data into the tree
-			Returns true or false depending on whether or not the insertion succeeded
-		- bool balance()
+		- **bool insert(T data)**
+			- Inserts data into the tree
+			- Returns true or false depending on whether or not the insertion succeeded
+		- **bool balance()**
 			Balances tree to minimze tree height
-		- void remove(T data)
+		- **void remove(T data)**
 			Removes specified value from tree 
-		- void display(int mode)
-			Prints the tree
-			3 modes 
-				Mode 1: print tree in increasing order
-				Mode 2: print tree in decreasing order
-				Mode 3: print tree in traversal order   
-		- void clear()
+		- **void display(int mode)**
+			- Prints the tree
+			- 3 modes 
+				- Mode 1: print tree in increasing order
+				- Mode 2: print tree in decreasing order
+				- Mode 3: print tree in traversal order   
+		- **void clear()**
 			Empties tree
-		- BSTNode<T>* getRoot()
+		- **BSTNode<T>* getRoot()**
 			Returns the root			
-		- vector<T> getTreeInc()
+		- **vector<T> getTreeInc()**
 			Returns a vector of the tree in increasing order
-		- vector<T> getTreeDec()
+		- **vector<T> getTreeDec()**
 			Returns a vector of the tree in decreasing order
-		- vector<T> getTreeTrav()
+		- **vector<T> getTreeTrav()**
 			Returns a vector of the tree in traversal order
 		
