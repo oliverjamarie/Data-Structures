@@ -15,7 +15,7 @@ The data structures rely on Compare.h to compare variables.  If the variable typ
 - BinarySearchTree<T>
 	- Variables
 		- **BSTNode<T>\* root** (private)
-		- **int size **(private)
+		- **int size** (private)
 		
 	- Constructors
 		- **BinarySearchTree()**
