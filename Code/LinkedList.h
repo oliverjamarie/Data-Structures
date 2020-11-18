@@ -62,9 +62,6 @@ class LinkedList{
             return size;
         }
 
-
-
-
     private:
 
         LinkedListNode<T>* head;
@@ -89,6 +86,7 @@ LinkedList<T>::LinkedList(LinkedListNode<T>* node){
     head = node;
 }
 
+// adds data to the end of the list
 TEMP
 bool LinkedList<T>::append(T data_in){
     LinkedListNode<T>* curr;
@@ -111,6 +109,7 @@ bool LinkedList<T>::append(T data_in){
     return true;
 }
 
+// Searches for node holding specified data in the list and returns it
 // Reurns null if not found
 TEMP 
 LinkedListNode<T>* LinkedList<T>::find(T data){
@@ -129,7 +128,8 @@ LinkedListNode<T>* LinkedList<T>::find(T data){
     return curr;
 }
 
-//returns -1 if it isn't found
+// returns the index of the node holding the specified data
+// returns -1 if it isn't found
 TEMP 
 int LinkedList<T>::index(T data){
     int index = 0;
@@ -149,6 +149,8 @@ int LinkedList<T>::index(T data){
     return -1;
 }
 
+// removes the node holding the specified data from the list
+// returns false if the node isn't found
 TEMP
 bool LinkedList<T>::remove(T data_in){
     LinkedListNode<T>* curr = head,*prev = head;
