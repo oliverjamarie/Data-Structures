@@ -8,6 +8,7 @@
 #include <exception>
 #include <string>
 #include "Compare.h"
+#include <vector>
 
 using namespace std;
 
@@ -45,13 +46,18 @@ TEMP
 class BinarySearchTree {
     private:
         bool insertIntoTree(T, BSTNode<T>*);
+        bool removeRoot();
+        void clear(BSTNode<T>*);
         void displayTreeIncOrder(BSTNode<T>*);
         void displayTreeDecOrder(BSTNode<T>*);
         void displayTreeTraversOrder(BSTNode<T>*);
+        void getTreeInc(vector<T>&, BSTNode<T>*);
+        void getTreeDec(vector<T>&, BSTNode<T>*);
+        void getTreeTrav(vector<T>&, BSTNode<T>*);
         BSTNode<T>* find(T, BSTNode<T>*);
         BSTNode<T>* findMin(BSTNode<T>*);
         BSTNode<T>* findMax(BSTNode<T>*);
-        BSTNode<T>* deleteNode(T, BSTNode<T>*);
+        
         int size;
         BSTNode<T>* root;
 
@@ -60,22 +66,49 @@ class BinarySearchTree {
             size = 0;
             root = NULL;
         }
+        // For a balanced tree, input a sorted vector but it's not
+        // a requirement
+         
+        BinarySearchTree(vector<T> in){
+            size = 0;
+            root = NULL;
+
+            for (T i : in){
+                insert(i);
+            }
+        }
+        ~BinarySearchTree(){
+            while (size > 0){
+                cout << "Removing Node\n";
+                remove(root->data);
+            }
+            root = NULL;
+            
+        }
         int getSize(){
             return size;
         }
         bool insert(T);
         bool balance();
-        bool remove(T);
+        void remove(T);
+        void display(int);
+        void clear();
+        BSTNode<T>* deleteNode(T, BSTNode<T>*);
         BSTNode<T>* getRoot(){
             return root;
         }
-        void display(int);
+        vector<T> getTreeInc();
+        vector<T> getTreeDec();
+        vector<T> getTreeTrav();
+       
+        
 };
 
 TEMP
 bool BinarySearchTree<T>:: insert(T data_in){
     if (root == NULL){
         root = new BSTNode<T>(data_in);
+        size ++;
         return true;
     }
     return insertIntoTree(data_in,root);
@@ -87,6 +120,7 @@ bool BinarySearchTree<T>::insertIntoTree(T data_in, BSTNode<T>* parent){
     if (Compare<T>::compare(data_in,parent->data) <= 0){
         if (parent->left == NULL){
             parent->left = new BSTNode<T>(data_in);
+            size ++;
             return true;
         }
         return insertIntoTree(data_in, parent->left);
@@ -94,6 +128,7 @@ bool BinarySearchTree<T>::insertIntoTree(T data_in, BSTNode<T>* parent){
     else {
         if (parent->right == NULL){
             parent->right = new BSTNode<T>(data_in);
+            size ++;
             return true;
         }
         return insertIntoTree(data_in, parent->right);
@@ -101,10 +136,43 @@ bool BinarySearchTree<T>::insertIntoTree(T data_in, BSTNode<T>* parent){
 }
 
 
-//NOT YET IMPLEMENTED
+// Doesn't create the shortest tree possible,
+
 TEMP 
 bool BinarySearchTree<T>::balance(){
+    vector<T> set = getTreeInc();
+    int setSize,
+        mid;
+
+    clear();
+
+    while (set.empty() == false){
+        setSize = set.size();
+        mid = setSize / 2;
+
+        insert(set[mid]);
+        
+        set.erase(set.begin() + mid ); // removes element of set[mid]
+    }
+
     return true;
+}
+
+TEMP
+void BinarySearchTree<T>::clear(){
+    clear(root);
+}
+
+TEMP
+void BinarySearchTree<T>::clear(BSTNode<T>* node){
+    if (node == NULL){
+        return;
+    }
+    clear(node->left);
+    clear(node->right);
+
+    delete node;
+    root = NULL;
 }
 
 // mode 0   ==> display tree in increasing order
@@ -161,10 +229,65 @@ void BinarySearchTree<T>::displayTreeTraversOrder(BSTNode<T>* node){
     if (node == NULL){
         return;
     }
-    node->displayNode();
+
     displayTreeDecOrder(node->left);
     displayTreeDecOrder(node->right);
+    node->displayNode();
+}
+
+
+// returns a vector of the tree in increasing order
+TEMP
+vector<T> BinarySearchTree<T>::getTreeInc(){
+    vector<T> set;
+    getTreeInc(set,root);
+    return set;
+}
+
+TEMP 
+void BinarySearchTree<T>::getTreeInc(vector<T> &set, BSTNode<T>* node){
+    if (node == NULL){
+        return;
+    }
+    getTreeInc(set,node->left);
+    set.push_back(node->data);
+    getTreeInc(set,node->right);
+}
+
+// returns a vector of the tree in decreasing order
+TEMP
+vector<T> BinarySearchTree<T>::getTreeDec(){
+    vector<T> set;
+    getTreeDec(set,root);
+    return set;
+}
+
+TEMP 
+void BinarySearchTree<T>::getTreeDec(vector<T> &set, BSTNode<T>* node){
+    if (node == NULL){
+        return;
+    }
+    getTreeInc(set,node->right);
+    set.push_back(node->data);
+    getTreeInc(set,node->left);
+}
+
+TEMP
+vector<T> BinarySearchTree<T>::getTreeTrav(){
+    vector<T> set;
+    getTreeTrav(set,root);
+    return set;
+}
+
+TEMP 
+void BinarySearchTree<T>::getTreeTrav(vector<T> &set, BSTNode<T>* node){
+    if (node == NULL){
+        return;
+    }
     
+    getTreeInc(set,node->left);
+    getTreeInc(set,node->right);
+    set.push_back(node->data);
 }
 
 
@@ -187,69 +310,102 @@ BSTNode<T>* BinarySearchTree<T>::find(T data_in, BSTNode<T>* node){
     }
 }
 
+
+TEMP 
+bool BinarySearchTree<T>:: removeRoot(){
+    if (root == NULL){
+        return false;
+    }
+    if (root->left != NULL && root->right != NULL){
+        BSTNode<T>* largestNode = findMax(root->left);
+        T max = largestNode->data;
+        root->data = max;
+        deleteNode(max, root->left);
+    } 
+    else if (root->right != NULL){
+        root = root->right;
+    }  
+    else if (root->left != NULL){
+        root = root->left;
+    }
+    else {
+        root = NULL;
+    }
+    size --;
+    return true;
+}
+
 //  To implement,
 //      destructor
 TEMP
-bool BinarySearchTree<T>::remove(T data_in){
-    return deleteNode(data_in, root) != NULL;
+void BinarySearchTree<T>::remove(T data_in){
+    if (Compare<T>::compare(data_in,root->data) == 0){
+        removeRoot();
+    }
+    else {
+        deleteNode(data_in, root);
+    }
 }
 
 TEMP
 BSTNode<T>* BinarySearchTree<T>::deleteNode(T data_in, BSTNode<T>* node){
-   BSTNode<T>* temp;
+   //BSTNode<T>* temp;
 
    if (node == NULL){
        return NULL;
    }
-   else if (Compare<T>::compare(data_in, node->data) < 0){
+   
+   if (Compare<T>::compare(data_in, node->data) < 0){
        node->left = deleteNode(data_in,node->left);
    }
    else if (Compare<T>::compare(data_in, node->data) > 0){
        node->right = deleteNode (data_in, node->right);
    }
-   else if (node->right && node->left){ // if both child nodes are not NULL
-        temp = findMin(node->right);
-        node->data = temp->data;
-        node->right = deleteNode(node->data, node->right);
-   }
    else {
-       temp = node;
        if (node->left == NULL){
-           node = node->right;
+           BSTNode<T>* temp = node->right;
+           size --;
+           free (node);
+           return temp;    
        }
        else if (node->right == NULL){
-           node = node->left;
+           BSTNode<T>* temp = node->left;
+           size --;
+           free (node);
+           return temp;
        }
-       delete temp;
+        BSTNode<T>* temp = findMin(node->right);
+        node->data = temp->data;
+        node->right = deleteNode(node->data, node->right);
    }
 
    return node;
 }
+
+
 // Returns the smallest child of node 
 TEMP
 BSTNode<T>* BinarySearchTree<T>:: findMin(BSTNode<T>* node){
-    if (node == NULL){
-        return NULL;
+    BSTNode<T>* curr = node;
+
+    while (curr != NULL && curr->left != NULL){
+        curr = curr->left;
     }
-    else if (node->left == NULL){
-        return node;
-    }
-    else {
-        return findMin(node->left);
-    }
+
+    return curr;
 }
 
-// Returns the biggest child of node
+// Returns the largest child of node
 TEMP 
 BSTNode<T>* BinarySearchTree<T>::findMax(BSTNode<T>* node){
-    if (node == NULL){
-        return NULL;
+    BSTNode<T>* curr = node;
+
+    while (curr != NULL && curr->left != NULL){
+        curr = curr->right;
     }
-    else if (node->right == NULL){
-        return node;
-    }
-    else {
-        return findMax(node->right);
-    }
+
+    return curr;
 }
+
+
 #endif
