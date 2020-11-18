@@ -34,9 +34,9 @@ The data structures rely on Compare.h to compare variables.  If the variable typ
 		- **void display(int mode)**
 			- Prints the tree
 			- 3 modes 
-				- Mode 1: print tree in increasing order
-				- Mode 2: print tree in decreasing order
-				- Mode 3: print tree in traversal order   
+				- Mode 0: print tree in increasing order
+				- Mode 1: print tree in decreasing order
+				- Mode 2: print tree in traversal order   
 		- **void clear()**
 			Empties tree
 		- **BSTNode<T>* getRoot()**
