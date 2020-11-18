@@ -11,7 +11,7 @@ Data structures currently implemented
 The data structures rely on Compare.h to compare variables.  If the variable type isn't primitive, you will need to implement a comparator function.
     
 
-#Binary Search Tree
+# Binary Search Tree
 - BinarySearchTree<T>
 	- Variables
 		- BSTNode<T>* root (private)
