@@ -45,6 +45,7 @@ void BSTNode<T>::displayNode(){
 TEMP
 class BinarySearchTree {
     private:
+        // Functions
         bool insertIntoTree(T, BSTNode<T>*);
         bool removeRoot();
         void clear(BSTNode<T>*);
@@ -57,18 +58,18 @@ class BinarySearchTree {
         BSTNode<T>* find(T, BSTNode<T>*);
         BSTNode<T>* findMin(BSTNode<T>*);
         BSTNode<T>* findMax(BSTNode<T>*);
+        BSTNode<T>* deleteNode(T, BSTNode<T>*);
         
+        // Variables
         int size;
         BSTNode<T>* root;
 
     public:
+        // Constructors
         BinarySearchTree(){
             size = 0;
             root = NULL;
-        }
-        // For a balanced tree, input a sorted vector but it's not
-        // a requirement
-         
+        }         
         BinarySearchTree(vector<T> in){
             size = 0;
             root = NULL;
@@ -77,6 +78,8 @@ class BinarySearchTree {
                 insert(i);
             }
         }
+
+        // Destructor
         ~BinarySearchTree(){
             while (size > 0){
                 cout << "Removing Node\n";
@@ -85,6 +88,8 @@ class BinarySearchTree {
             root = NULL;
             
         }
+        
+        // Functions
         int getSize(){
             return size;
         }
@@ -93,7 +98,6 @@ class BinarySearchTree {
         void remove(T);
         void display(int);
         void clear();
-        BSTNode<T>* deleteNode(T, BSTNode<T>*);
         BSTNode<T>* getRoot(){
             return root;
         }
