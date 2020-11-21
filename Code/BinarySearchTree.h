@@ -29,6 +29,11 @@ class BSTNode {
             left = NULL;
             right = NULL;
         }
+        BSTNode(BSTNode &other){
+            data = other.data;
+            left = other.left;
+            right = other.right;
+        }
         T getData(){
             return data;
         }
@@ -78,14 +83,11 @@ class BinarySearchTree {
                 insert(i);
             }
         }
+        BinarySearchTree(const BinarySearchTree<T> &);
 
         // Destructor
         ~BinarySearchTree(){
-            while (size > 0){
-                cout << "Removing Node\n";
-                remove(root->data);
-            }
-            root = NULL;
+            clear();
             
         }
         
@@ -107,6 +109,12 @@ class BinarySearchTree {
        
         
 };
+// Shallow copy of other tree (only copies the root node)
+TEMP
+BinarySearchTree<T>::BinarySearchTree(const BinarySearchTree<T> &other){
+    root = new BSTNode<T>(*other.root);
+    size = other.size;
+}
 
 TEMP
 bool BinarySearchTree<T>:: insert(T data_in){
