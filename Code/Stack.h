@@ -1,7 +1,7 @@
 #ifndef STACK_H
 #define STACK_H
 
-// #define TEMP template<class T>
+ #define TEMP template<class T>
 
 // Because we're working with templates and templates are 
 // translated before compile time, we implement their code here 
@@ -48,7 +48,10 @@ class Stack{
             size = 0;
         }
         Stack(T data){
+            size = 0;
+            head = NULL;
 
+            push(data);
         }
 
         // Functions
