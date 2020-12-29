@@ -1,16 +1,9 @@
 
-output: Main.o Notebook.o Topic.o
-	g++ Main.o Notebook.o Topic.o -o output
+output: Main.o 
+	g++ Main.o  -o output
 
-Main.o: Main.cpp Notebook.o LinkedList.h Compare.h BinarySearchTree.h Stack.h Queue.h
+Main.o: Main.cpp LinkedList.h Compare.h BinarySearchTree.h Stack.h Queue.h
 	g++ -c Main.cpp
-
-Notebook.o: Notebook.cpp Notebook.h Topic.o
-	g++ -c Notebook.cpp
-
-Topic.o: Topic.cpp Topic.h
-	g++ -c Topic.cpp
-
 
 
 clean:
